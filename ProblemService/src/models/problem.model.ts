@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-export interface ITeastCase {
+export interface ITestCase {
     input: string;
     output: string;
 }
@@ -12,10 +12,10 @@ export interface IProblem extends Document {
     createdAt: Date;
     updatedAt: Date;
     editorial?: string;
-    testcases: ITeastCase[];
+    testcases: ITestCase[];
 }
 
-const TestCaseSchema = new mongoose.Schema<ITeastCase>({
+const TestCaseSchema = new mongoose.Schema<ITestCase>({
     input: {
         type: String,
         required: [true, "Input is required"],
