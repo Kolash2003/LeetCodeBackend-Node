@@ -1,4 +1,4 @@
-import { CreateProblemDto } from "../dtos/problems.dto";
+import { CreateProblemDto } from "../validators/problem.validator";
 import { IProblem } from "../models/problem.model";
 import { IProblemRepository } from "../repositories/problem.repository";
 import { BadRequestError, NotFoundError } from "../utils/errors/app.error";
