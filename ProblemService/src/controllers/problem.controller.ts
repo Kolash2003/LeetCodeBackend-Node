@@ -16,7 +16,7 @@ const problemRepository = new ProblemRepository();
 const problemService = new ProblemService(problemRepository)
 
 export const ProblemController = {
-    
+
     async createProblem(req: Request, res: Response): Promise<void> {
 
         const problem = await problemService.createProblem(req.body);
@@ -90,5 +90,5 @@ export const ProblemController = {
             sucess: true
         });
     }
-    
+
 }
