@@ -2,25 +2,26 @@ import express from "express";
 import { validateRequestBody } from "../../validators";
 import { ProblemSubmissionSchema } from "../../validators/submission.validator";
 import { SubmissionController } from "../../controllers/submission.controller";
-
+import { validateQueryParams } from "../../validators";
 
 const submissionRouter = express.Router();
 
 submissionRouter.post(
-    '/', 
-    validateRequestBody(ProblemSubmissionSchema), 
+    '/',
+    validateRequestBody(ProblemSubmissionSchema),
     SubmissionController.createSubmission);
 
 submissionRouter.get(
-    '/:id', 
+    '/:id',
     SubmissionController.getSubmissionById);
 
 submissionRouter.get(
-    '/:problemId', 
+    '/problem/:problemId',
+    validateQueryParams(ProblemSubmissionSchema),
     SubmissionController.getSubmissionsByProblemId);
 
 submissionRouter.delete(
-    '/:id', 
+    '/:id',
     SubmissionController.deleteSubmissionById);
 
 submissionRouter.put(
