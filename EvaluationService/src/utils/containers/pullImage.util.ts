@@ -1,7 +1,7 @@
 import fs from "fs";
 import Docker from "dockerode";
 import logger from "../../config/logger.config";
-import { PYTHON_IMAGE, CPP_IMAGE } from "../constants";
+import { PYTHON_IMAGE } from "../constants";
 
 const SOCKET = process.env.DOCKER_SOCKET || "/var/run/docker.sock";
 const TIMEOUT_MS = 2 * 60 * 1000;
@@ -67,7 +67,7 @@ export async function pullAllImages(): Promise<{
     pulled: string[];
     failed: { image: string; reason: any }[];
 }> {
-    const images: string[] = [PYTHON_IMAGE, CPP_IMAGE];
+    const images: string[] = [PYTHON_IMAGE];
 
     const results: {
         pulled: string[];
