@@ -7,8 +7,7 @@ import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { startWorkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
-import { createNewDockerContainer } from './utils/containers/createContainer.util';
-import { PYTHON_IMAGE } from './utils/constants';
+import { runPythonCode } from './utils/containers/pythonRunner.util';
 
 const app = express();
 
@@ -38,9 +37,18 @@ app.listen(serverConfig.PORT, async () => {
 
     logger.info("All required images pulled successfully");
 
-    await createNewDockerContainer({
-        imageName: PYTHON_IMAGE,
-        cmdExecutable: ['/bin/bash', '-c', 'tail -f /var/log/dmesg'],
-        memeoryLimit: 1024 * 1024 * 1024, // 2 GB
-    })
+    // await createNewDockerContainer({
+    //     imageName: PYTHON_IMAGE,
+    //     cmdExecutable: ['/bin/bash', '-c', 'tail -f /var/log/dmesg'],
+    //     memeoryLimit: 1024 * 1024 * 1024, // 2 GB
+    // })
+
+    await testPythonCode();
 });
+
+
+async function testPythonCode() {
+    const pythonCode = `print("Hello World!")`;
+
+    await runPythonCode(pythonCode);
+}
