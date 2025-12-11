@@ -7,7 +7,7 @@ import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { startWorkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
-import { runPythonCode } from './utils/containers/pythonRunner.util';
+import { runCode } from './utils/containers/codeRunner.util';
 
 const app = express();
 
@@ -48,7 +48,17 @@ app.listen(serverConfig.PORT, async () => {
 
 
 async function testPythonCode() {
-    const pythonCode = `print("Hello World!")`;
+    const pythonCode = `import time
+i = 0
+while True:
+    i += 1
+    print(i)
+    time.sleep(1)
+print("Bye")`;
 
-    await runPythonCode(pythonCode);
+    await runCode({
+        code: pythonCode,
+        language: "python",
+        timeout: 1000 * 3
+    });
 }
