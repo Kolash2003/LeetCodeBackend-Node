@@ -1,20 +1,20 @@
 import { createNewDockerContainer } from "./createContainer.util";
-import { PYTHON_IMAGE } from "../constants";
 import { commands } from "./commands.util";
 
 
 interface RunCodeOptions {
     code: string;
-    language: "python",
-    timeout: number
+    language: "python" | "cpp",
+    timeout: number,
+    imageName: string,
 }
 
 export async function runCode(options: RunCodeOptions) {
 
-    const { code, language, timeout } = options;
+    const { code, language, timeout, imageName } = options;
 
     const container = await createNewDockerContainer({
-        imageName: PYTHON_IMAGE,
+        imageName: imageName,
         cmdExecutable: commands[language](code),
         memeoryLimit: 1024 * 1024 * 1024, // 1GB
     });

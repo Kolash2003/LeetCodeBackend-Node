@@ -8,6 +8,8 @@ import { attachCorrelationIdMiddleware } from './middlewares/correlation.middlew
 import { startWorkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
 import { runCode } from './utils/containers/codeRunner.util';
+import { PYTHON_IMAGE } from './utils/constants';
+// import { CPP_IMAGE } from './utils/containers/constants';
 
 const app = express();
 
@@ -44,6 +46,7 @@ app.listen(serverConfig.PORT, async () => {
     // })
 
     await testPythonCode();
+    // await testCppCode();     // error installing cpp image on docker 
 });
 
 
@@ -59,6 +62,27 @@ print("Bye")`;
     await runCode({
         code: pythonCode,
         language: "python",
-        timeout: 1000 * 3
+        timeout: 1000 * 3,
+        imageName: PYTHON_IMAGE
     });
 }
+
+// async function testCppCode() {
+//     const cppCode = `
+// #include <iostream>
+// using namespace std;
+// int main() {
+//     int i = 0;
+//     while (i < 10) {
+//         i++;
+//         cout << i << endl;
+//     }
+//     return 0;
+// }`;
+
+//     await runCode({
+//         code: cppCode,
+//         language: "cpp",
+//         timeout: 1000 * 3
+//     });
+// }
