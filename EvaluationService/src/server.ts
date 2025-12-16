@@ -9,7 +9,6 @@ import { startWorkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
 import { runCode } from './utils/containers/codeRunner.util';
 import { PYTHON_IMAGE } from './utils/constants';
-// import { CPP_IMAGE } from './utils/containers/constants';
 
 const app = express();
 
@@ -51,13 +50,11 @@ app.listen(serverConfig.PORT, async () => {
 
 
 async function testPythonCode() {
-    const pythonCode = `import time
+    const pythonCode = `import sys
 i = 0
-while True:
-    i += 1
-    print(i)
-    time.sleep(1)
-print("Bye")`;
+n = int(input())
+for i in range(n):
+    print(i)`;
 
     await runCode({
         code: pythonCode,
@@ -67,22 +64,3 @@ print("Bye")`;
     });
 }
 
-// async function testCppCode() {
-//     const cppCode = `
-// #include <iostream>
-// using namespace std;
-// int main() {
-//     int i = 0;
-//     while (i < 10) {
-//         i++;
-//         cout << i << endl;
-//     }
-//     return 0;
-// }`;
-
-//     await runCode({
-//         code: cppCode,
-//         language: "cpp",
-//         timeout: 1000 * 3
-//     });
-// }

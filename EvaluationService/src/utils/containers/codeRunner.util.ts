@@ -1,7 +1,6 @@
 import { createNewDockerContainer } from "./createContainer.util";
 import { commands } from "./commands.util";
 
-
 interface RunCodeOptions {
     code: string;
     language: "python" | "cpp",
@@ -15,7 +14,7 @@ export async function runCode(options: RunCodeOptions) {
 
     const container = await createNewDockerContainer({
         imageName: imageName,
-        cmdExecutable: commands[language](code),
+        cmdExecutable: commands[language](code, "5"),
         memeoryLimit: 1024 * 1024 * 1024, // 1GB
     });
 
@@ -35,16 +34,26 @@ export async function runCode(options: RunCodeOptions) {
         stderr: true,
     });
 
-    console.log(logs?.toString());
+    const containerLogs = processLogs(logs);
+
+    console.log(containerLogs);
 
     await container?.remove();
 
     clearTimeout(timeLimitExceedTimeOut);
 
-    if (status.StatusCode == 0) {
+    if (status && status.StatusCode == 0) {
         console.log("Container exited successfully");
     } else {
         console.log("Container exited with error");
     }
+
+}
+
+function processLogs(logs: Buffer | undefined) {
+    return logs?.toString('utf-8')
+        .replace(/\x00/g, '') // Remove null bytes
+        .replace(/[\x00-\x09\x0B-\x1F\x7F-\x9F]/g, '') // Remove control characters except \n (0x0A)
+        .trim();
 
 }
