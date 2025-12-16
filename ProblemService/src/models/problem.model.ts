@@ -39,6 +39,11 @@ const problemSchema = new mongoose.Schema<IProblem>({
     },
     description: {
         type: String,
+        required: [true, "Description is required"],
+        trim: true,
+    },
+    difficulty: {
+        type: String,
         enum: {
             values: ['easy', 'medium', 'hard'],
             message: "Invalid difficulty level"
@@ -61,12 +66,12 @@ const problemSchema = new mongoose.Schema<IProblem>({
             delete (record as any).__v;  // delete __v feild
             record.id = record._id; // add id feild
             delete record._id; // delete _id feild
-            return record; 
+            return record;
         }
     }
 });
 
-problemSchema.index({ title: 1}, { unique: true });
+problemSchema.index({ title: 1 }, { unique: true });
 problemSchema.index({ difficulty: 1 });
 
 export const Problem = mongoose.model<IProblem>("Problem", problemSchema);
