@@ -3,7 +3,7 @@ import { IProblem, Problem } from "../models/problem.model";
 export interface IProblemRepository {
     createProblem(problem: Partial<IProblem>): Promise<IProblem>;
     getProblemById(id: string): Promise<IProblem | null>;
-    getAllProblems(): Promise<{problems: IProblem[], total: number}>;
+    getAllProblems(): Promise<{ problems: IProblem[], total: number }>;
     updateProblem(id: string, updateData: Partial<IProblem>): Promise<IProblem | null>;
     deleteProblem(id: string): Promise<boolean>;
     findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>
@@ -21,7 +21,7 @@ export class ProblemRepository implements IProblemRepository {
         return await Problem.findById(id);
     }
 
-    async getAllProblems(): Promise<{ problems: IProblem[], total: number}> {
+    async getAllProblems(): Promise<{ problems: IProblem[], total: number }> {
         const problems = await Problem.find().sort({ createdAt: -1 })
         const total = await Problem.countDocuments();
         return { problems, total }
@@ -29,6 +29,8 @@ export class ProblemRepository implements IProblemRepository {
 
     async updateProblem(id: string, updateData: Partial<IProblem>): Promise<IProblem | null> {
         return await Problem.findByIdAndUpdate(id, updateData, { new: true });
+        // we need to pass new: true to return the updated document
+        // generally all findByIdAndUpdate returns the old document
     }
 
     async deleteProblem(id: string): Promise<boolean> {

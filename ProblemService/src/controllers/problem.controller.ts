@@ -24,7 +24,7 @@ export const ProblemController = {
         res.status(201).json({
             message: "Problem created successfully",
             data: problem,
-            sucess: true
+            success: true
         });
     },
 
@@ -34,7 +34,7 @@ export const ProblemController = {
         res.status(200).json({
             message: "Problem fetched successfully",
             data: problem,
-            sucess: true
+            success: true
         });
     },
 
@@ -45,7 +45,7 @@ export const ProblemController = {
             message: "Problems fetched successfully",
             data: problems,
             total,
-            sucess: true
+            success: true
         });
     },
 
@@ -55,7 +55,7 @@ export const ProblemController = {
         res.status(200).json({
             message: "Problem updated successfully",
             data: problem,
-            sucess: true
+            success: true
         });
     },
 
@@ -65,7 +65,7 @@ export const ProblemController = {
         res.status(200).json({
             message: "Problem deleted successfully",
             data: result,
-            sucess: true
+            success: true
         });
     },
 
@@ -76,7 +76,7 @@ export const ProblemController = {
         res.status(200).json({
             message: "Problems fetched successfully",
             data: problems,
-            sucess: true
+            success: true
         });
     },
 
@@ -87,7 +87,7 @@ export const ProblemController = {
         res.status(200).json({
             message: "Problems fetched successfully",
             data: problems,
-            sucess: true
+            success: true
         });
     }
 

@@ -11,7 +11,7 @@ export interface IProblemService {
     updateProblem(id: string, updateData: Partial<IProblem>): Promise<IProblem | null>;
     deleteProblem(id: string): Promise<boolean>;
     findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>;
-    searchProblems(query: string): Promise<IProblem[]>;   
+    searchProblems(query: string): Promise<IProblem[]>;
 
 }
 
@@ -42,7 +42,7 @@ export class ProblemService implements IProblemService {
     }
 
     async getAllProblems(): Promise<{ problems: IProblem[]; total: number; }> {
-        return await this.problemRepository.getAllProblems();   
+        return await this.problemRepository.getAllProblems();
     }
 
     async updateProblem(id: string, updateData: Partial<IProblem>): Promise<IProblem | null> {
@@ -51,18 +51,18 @@ export class ProblemService implements IProblemService {
         if (!problem) {
             throw new NotFoundError("Problem not found");
         }
-        
+
         const sanitizedPayload: Partial<IProblem> = {
             ...updateData,
         }
-        if(updateData.description) {
+        if (updateData.description) {
             sanitizedPayload.description = await sanitizeMarkdown(updateData.description);
         }
-        if(updateData.editorial) {
+        if (updateData.editorial) {
             sanitizedPayload.editorial = await sanitizeMarkdown(updateData.editorial);
         }
 
-        return await this.problemRepository.updateProblem(id, updateData);
+        return await this.problemRepository.updateProblem(id, sanitizedPayload);
     }
 
     async deleteProblem(id: string): Promise<boolean> {
@@ -79,7 +79,7 @@ export class ProblemService implements IProblemService {
     }
 
     async searchProblems(query: string): Promise<IProblem[]> {
-        if(!query || query.trim() === "") {
+        if (!query || query.trim() === "") {
             throw new BadRequestError("query is required")
         }
         return await this.problemRepository.searchProblems(query)

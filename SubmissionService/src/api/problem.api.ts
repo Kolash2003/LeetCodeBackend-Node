@@ -39,7 +39,7 @@ export async function getProblemById(problemId: string): Promise<IProblemDetails
         throw new InternalServerError("Failed to get problem details");
 
     } catch (error) {
-        logger.error(`Failed to get Problem datails : ${error}`);
+        logger.error(`Failed to get Problem details : ${JSON.stringify(error)}`);
         return null;
     }
 }

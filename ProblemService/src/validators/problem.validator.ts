@@ -26,6 +26,6 @@ export const findByDifficultySchema = z.object({
     difficulty: z.enum(["easy", "medium", "hard"])
 });
 
-
+// to export them as types
 export type CreateProblemDto = z.infer<typeof CreateProblemSchema>;
 export type UpdateProblemDto = z.infer<typeof UpdateProblemSchema>;

@@ -1,0 +1,13 @@
+import { PYTHON_IMAGE } from "../utils/constants";
+import { CPP_IMAGE } from "../utils/constants";
+
+export const LANGUAGE_CONFIG = {
+    python: {
+        timeout: 4000,
+        imageName: PYTHON_IMAGE
+    },
+    cpp: {
+        timeout: 1000,
+        imageName: CPP_IMAGE
+    }
+}

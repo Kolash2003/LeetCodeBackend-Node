@@ -2,6 +2,9 @@ export const commands = {
     python: function (code: string, input: string) {
         const runCommand = `echo '${code}' > code.py && echo '${input}' > input.txt && python3 code.py < input.txt`;
         return ['/bin/bash', '-c', runCommand];
+        // this line says that inside the bin/bash we are going to excute the incoming command
+        // -c indicates that we are going to pass the command as a string
+        // runCommand is a string that contains the command that we want to execute
     },
     cpp: function (code: string, input: string) {
         const runCommand = `mkdir app && cd app && echo '${code}' > code.cpp &&  echo '${input}' > input.txt && g++ code.cpp -o code && ./code < input.txt`;

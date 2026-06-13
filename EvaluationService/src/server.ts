@@ -7,8 +7,8 @@ import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { startWorkers } from './workers/evaluation.worker';
 import { pullAllImages } from './utils/containers/pullImage.util';
-import { runCode } from './utils/containers/codeRunner.util';
-import { PYTHON_IMAGE } from './utils/constants';
+// import { runCode } from './utils/containers/codeRunner.util';
+// import { PYTHON_IMAGE, CPP_IMAGE } from './utils/constants';
 
 const app = express();
 
@@ -44,23 +44,50 @@ app.listen(serverConfig.PORT, async () => {
     //     memeoryLimit: 1024 * 1024 * 1024, // 2 GB
     // })
 
-    await testPythonCode();
+    // await testPythonCode();
     // await testCppCode();     // error installing cpp image on docker 
 });
 
 
-async function testPythonCode() {
-    const pythonCode = `import sys
-i = 0
-n = int(input())
-for i in range(n):
-    print(i)`;
+// async function testPythonCode() {
+//     const pythonCode = `import sys
+// i = 0
+// n = int(input())
+// for i in range(n):
+//     print(i)`;
 
-    await runCode({
-        code: pythonCode,
-        language: "python",
-        timeout: 1000 * 3,
-        imageName: PYTHON_IMAGE
-    });
-}
+//     const result = await runCode({
+//         code: pythonCode,
+//         language: "python",
+//         timeout: 1000 * 3,
+//         imageName: PYTHON_IMAGE,
+//         input: "10"
+//     });
+
+//     console.log("Python code result:", result);
+// }
+
+// async function testCppCode() {
+//     const cppCode = `#include <iostream>
+// using namespace std;
+
+// int main() {
+//     int n;
+//     cin >> n;
+//     for (int i = 0; i < n; i++) {
+//         cout << i << endl;
+//     }
+//     return 0;
+// }`;
+
+//     const result = await runCode({
+//         code: cppCode,
+//         language: "cpp",
+//         timeout: 1000 * 3,
+//         imageName: CPP_IMAGE,
+//         input: "10"
+//     });
+
+//     console.log("C++ code result:", result);
+// }
 

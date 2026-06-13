@@ -27,7 +27,7 @@ const TestCaseSchema = new mongoose.Schema<ITestCase>({
         trim: true,
     }
 }, {
-    // _id: false
+    // _id: false  // this will allow us to diable _id for each test case
 });
 
 const problemSchema = new mongoose.Schema<IProblem>({
@@ -35,7 +35,7 @@ const problemSchema = new mongoose.Schema<IProblem>({
         type: String,
         required: [true, "Title is required"],
         maxLength: [100, "Title must be less than 100 characters"],
-        trimp: true,
+        trimp: true, // this will remove the leading and trailing spaces
     },
     description: {
         type: String,

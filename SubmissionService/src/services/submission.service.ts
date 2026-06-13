@@ -23,21 +23,22 @@ export class SubmissionService implements ISubmissionService {
 
     async createSubmission(submissionData: Partial<ISubmission>): Promise<ISubmission> {
         // check if the problem exists
-        if(!submissionData.problemId) {
+        if (!submissionData.problemId) {
             throw new BadRequestError("Problem ID is required");
         }
 
-        if(!submissionData.code) {
+        if (!submissionData.code) {
             throw new BadRequestError("Code is required");
         }
 
-        if(!submissionData.language) {
+        if (!submissionData.language) {
             throw new BadRequestError("Language is required");
         }
 
         logger.info("Getting problem by ID", { problemId: submissionData.problemId });
         const problem = await getProblemById(submissionData.problemId);
-        if(!problem) {
+
+        if (!problem) {
             throw new NotFoundError("Problem not found or something went wrong");
         }
 
@@ -47,7 +48,7 @@ export class SubmissionService implements ISubmissionService {
 
         // submission to redis queue
         const jobId = await addSubmissionJob({
-            submissionId: submission.id,
+            submissionId: submission._id.toString(),
             problem: problem,
             code: submissionData.code || "",
             language: submissionData.language
@@ -60,7 +61,7 @@ export class SubmissionService implements ISubmissionService {
 
     async getSubmissionById(id: string): Promise<ISubmission | null> {
         const submission = await this.submissionRepository.findById(id);
-        if(!submission) {
+        if (!submission) {
             throw new NotFoundError("Submission not found");
         }
         return submission;
@@ -73,7 +74,7 @@ export class SubmissionService implements ISubmissionService {
 
     async deleteSubmissionById(id: string): Promise<boolean> {
         const result = await this.submissionRepository.deleteById(id);
-        if(!result) {
+        if (!result) {
             throw new NotFoundError("Submission not found");
         }
         return result;
@@ -81,10 +82,10 @@ export class SubmissionService implements ISubmissionService {
 
     async updateSubmissionStatus(id: string, status: SubmissionStatus, submissionData: ISubmissionData): Promise<ISubmission | null> {
         const submission = await this.submissionRepository.updateStatus(id, status, submissionData);
-        if(!submission) {
+        if (!submission) {
             throw new NotFoundError("Submission not found");
         }
         return submission;
     }
-    
+
 }

@@ -6,28 +6,38 @@ interface RunCodeOptions {
     language: "python" | "cpp",
     timeout: number,
     imageName: string,
+    input: string
 }
 
 export async function runCode(options: RunCodeOptions) {
 
-    const { code, language, timeout, imageName } = options;
+    const { code, language, timeout, imageName, input } = options;
+
 
     const container = await createNewDockerContainer({
         imageName: imageName,
-        cmdExecutable: commands[language](code, "5"),
+        cmdExecutable: commands[language](code, input),
         memeoryLimit: 1024 * 1024 * 1024, // 1GB
     });
 
+    let isTimeLimitExceeded = false;
     const timeLimitExceedTimeOut = setTimeout(async () => {
         console.log("Time Limit Exceeded");
+        isTimeLimitExceeded = true;
         container?.kill();
     }, timeout);
 
-    console.log("Container created successfully", container?.id);
     await container?.start();
 
     const status = await container?.wait();
-    console.log("Container status", status);
+
+    if (isTimeLimitExceeded) {
+        await container?.remove();
+        return {
+            status: "time_limit_exceeded",
+            output: "Time Limit Exceeded"
+        }
+    }
 
     const logs = await container?.logs({
         stdout: true,
@@ -36,16 +46,20 @@ export async function runCode(options: RunCodeOptions) {
 
     const containerLogs = processLogs(logs);
 
-    console.log(containerLogs);
-
     await container?.remove();
 
     clearTimeout(timeLimitExceedTimeOut);
 
     if (status && status.StatusCode == 0) {
-        console.log("Container exited successfully");
+        return {
+            status: "success",
+            output: containerLogs
+        }
     } else {
-        console.log("Container exited with error");
+        return {
+            status: "failed",
+            output: containerLogs
+        }
     }
 
 }

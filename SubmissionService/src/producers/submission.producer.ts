@@ -11,11 +11,13 @@ export interface IsubmissionJob {
     language: SubmissionLanguage;
 }
 
-export async function addSubmissionJob(data: IsubmissionJob) {
+export async function addSubmissionJob(data: IsubmissionJob): Promise<string | null> {
     try {
         const job = await submissionQueue.add("evaluate-submission", data);
 
         logger.info(`Job submission added: ${job.id}`)
+
+        return job.id || null;
     } catch (error) {
         logger.error(`Failed to add submission job: ${error}`);
         return null;

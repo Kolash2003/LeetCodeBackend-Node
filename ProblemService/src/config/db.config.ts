@@ -18,14 +18,17 @@ export const connectDB = async () => {
             logger.warn("MongoDB connection error")
         });
 
-        process.on("SIGINT", async () => {
+
+        // The SIGINT is triggered when we manually try to close the server
+        process.on("SIGINT", async () => {    // This is when we want to handle the connection removal more gracefully
             await mongoose.connection.close();
             logger.info("MongoDB connection closed");
-            process.exit(0);
+            process.exit(0);   // this is a success status in linux
+            // Non zero value id faliure
         })
 
     } catch (error) {
         logger.error("Failed to connect to mongoDB", error);
-        process.exit(1);
+        process.exit(1);  // Exit with failure
     }
 }

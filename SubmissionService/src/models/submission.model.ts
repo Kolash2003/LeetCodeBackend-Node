@@ -29,22 +29,22 @@ export interface ISubmission extends Document {
 }
 
 const submissionSchema = new Schema<ISubmission>({
-    problemId: { 
-        type: String, 
-        required: [true, "Problem Id required for the submission"] 
+    problemId: {
+        type: String,
+        required: [true, "Problem Id required for the submission"]
     },
-    code: { 
-        type: String, 
-        required: [true, "Code is required for evaluation"] 
+    code: {
+        type: String,
+        required: [true, "Code is required for evaluation"]
     },
-    language: { 
-        type: String, 
+    language: {
+        type: String,
         required: [true, "Language is required for evaluation"],
         enum: Object.values(SubmissionLanguage)
     },
-    status: { 
-        type: String, 
-        required: true, 
+    status: {
+        type: String,
+        required: true,
         default: SubmissionStatus.PENDING,
         enum: Object.values(SubmissionStatus)
     },
@@ -58,8 +58,8 @@ const submissionSchema = new Schema<ISubmission>({
     toJSON: {
         transform: (_, record) => {
             delete (record as any).__v; // delete __v field
-            record.id = record._id; // add id field
-            delete record._id; // delete _id field
+            (record as any).id = record._id; // add id field
+            delete (record as any)._id; // delete _id field
             return record;
         }
     }
