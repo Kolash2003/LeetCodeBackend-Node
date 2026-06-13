@@ -11,20 +11,7 @@ problemRouter.post(
     validateRequestBody(CreateProblemSchema), 
     ProblemController.createProblem);
 
-problemRouter.get(
-    '/:id', 
-    ProblemController.getProblemById);
-problemRouter.get(
-    '/', 
-    ProblemController.getAllProblems);
-
-problemRouter.put(
-    '/:id', 
-    ProblemController.updateProblem);
-
-problemRouter.delete(
-    '/:id', ProblemController.deleteProblem);
-
+// NOTE: Specific routes must come BEFORE the /:id wildcard
 problemRouter.get(
     '/difficulty/:difficulty', 
     validateRequestParams(findByDifficultySchema),
@@ -33,5 +20,20 @@ problemRouter.get(
 problemRouter.get(
     '/search/:query', 
     ProblemController.searchProblems);
+
+problemRouter.get(
+    '/', 
+    ProblemController.getAllProblems);
+
+problemRouter.get(
+    '/:id', 
+    ProblemController.getProblemById);
+
+problemRouter.put(
+    '/:id', 
+    ProblemController.updateProblem);
+
+problemRouter.delete(
+    '/:id', ProblemController.deleteProblem);
 
 export default problemRouter;

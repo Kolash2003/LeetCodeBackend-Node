@@ -20,3 +20,8 @@ export interface EvaluationJob {
     language: "python" | "cpp";
     problem: Problem;
 }
+
+export interface EvaluationResult {
+    status: "success" | "failed" | "time_limit_exceeded";
+    output: string;
+}

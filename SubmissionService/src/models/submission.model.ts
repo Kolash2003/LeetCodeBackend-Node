@@ -1,11 +1,11 @@
 import { Document, Schema, model } from "mongoose";
 
 export enum SubmissionStatus {
-    COMPLETED = "completed",
+    TLE = "time_limit_exceeded",
+    AC = "accepted",
+    WA = "wrong_answer",
     PENDING = "pending",
-    RUNNING = "running",
-    ACCEPTED = "accepted",
-    WRONG_ANSWER = "wrong_answer"
+
 }
 
 export enum SubmissionLanguage {
@@ -14,8 +14,8 @@ export enum SubmissionLanguage {
 }
 
 export interface ISubmissionData {
-    testCaseId: string;
-    status: string;
+    status: SubmissionStatus;
+    output?: string;
 }
 
 export interface ISubmission extends Document {

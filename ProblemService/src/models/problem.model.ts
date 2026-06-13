@@ -35,7 +35,7 @@ const problemSchema = new mongoose.Schema<IProblem>({
         type: String,
         required: [true, "Title is required"],
         maxLength: [100, "Title must be less than 100 characters"],
-        trimp: true, // this will remove the leading and trailing spaces
+        trim: true, // this will remove the leading and trailing spaces
     },
     description: {
         type: String,

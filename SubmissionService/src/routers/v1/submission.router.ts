@@ -1,14 +1,13 @@
 import express from "express";
 import { validateRequestBody } from "../../validators";
-import { ProblemSubmissionSchema } from "../../validators/submission.validator";
+import { createSubmissionSchema, updateSubmissionStatusSchema } from "../../validators/submission.validator";
 import { SubmissionController } from "../../controllers/submission.controller";
-import { validateQueryParams } from "../../validators";
 
 const submissionRouter = express.Router();
 
 submissionRouter.post(
     '/',
-    validateRequestBody(ProblemSubmissionSchema),
+    validateRequestBody(createSubmissionSchema),
     SubmissionController.createSubmission);
 
 submissionRouter.get(
@@ -17,7 +16,6 @@ submissionRouter.get(
 
 submissionRouter.get(
     '/problem/:problemId',
-    validateQueryParams(ProblemSubmissionSchema),
     SubmissionController.getSubmissionsByProblemId);
 
 submissionRouter.delete(
@@ -26,7 +24,7 @@ submissionRouter.delete(
 
 submissionRouter.put(
     '/:id',
-    validateRequestBody(ProblemSubmissionSchema),
+    validateRequestBody(updateSubmissionStatusSchema),
     SubmissionController.updateSubmissionStatus);
 
 
