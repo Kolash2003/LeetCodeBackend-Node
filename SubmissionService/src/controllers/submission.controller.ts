@@ -28,7 +28,7 @@ export const SubmissionController = {
     },
 
     async getSubmissionsByProblemId(req: Request, res: Response): Promise<void> {
-        const submission = await submissionService.getSubmissionsByProblemId(req.params.id);
+        const submission = await submissionService.getSubmissionsByProblemId(req.params.problemId);
 
         res.status(200).json({
             message: "Submissions fetched successfully",
